@@ -4,10 +4,18 @@ const {
   envoyerXmlOrJSON,
 } = require('../services/service.js');
 
+//recuperer le article grace a son id
+const getArticle = async (req, res) => {
+  const id = req.params.id;
+  const article = await queryToFetch.getArticle(id);
+  envoyerXmlOrJSON(req, res, article);
+};
 const getArticles = async (req, res) => {
   const articles = await queryToFetch.getArticles();
   envoyerXmlOrJSON(req, res, articles);
 };
+
+//recupere  tous les articles en les regroupant par categorie
 
 const getArticlesGroupedByCategories = async (req, res) => {
   try {
@@ -23,6 +31,14 @@ const getArticlesGroupedByCategories = async (req, res) => {
     });
   }
 };
+//recupere tous les categories
+
+const getCategories = async (req, res) => {
+  const articles = await queryToFetch.getCategories();
+  envoyerXmlOrJSON(req, res, articles);
+};
+
+//recupere tous les articles dependement de l'id de la categorie
 
 const getArticleDependingOnCategorie = async (req, res) => {
   try {
@@ -40,6 +56,8 @@ const getArticleDependingOnCategorie = async (req, res) => {
 };
 
 module.exports = {
+  getCategories,
+  getArticle,
   getArticles,
   getArticlesGroupedByCategories,
   getArticleDependingOnCategorie,
